@@ -1,0 +1,12 @@
+{
+  "name": "my-sass-project",
+  "version": "1.0.0",
+  "description": "Un proyecto básico con Sass",
+  "main": "index.js",
+  "scripts": {
+    "sass": "sass src/sass/index.scss src/css/index.css --watch"
+  },
+  "devDependencies": {
+    "sass": "^1.83.1"
+  }
+}
