@@ -1,0 +1,56 @@
+//.scss
+// variables & functions
+@import 'variables';
+
+/*reset styles*/
+*{
+    color: inherit;
+    margin: 0;
+}
+body{
+    font-family: Poppins;
+}
+hr{
+    border: 0;
+    border-top: 1px dotted #efefef;
+}
+
+img{
+    max-width: 100%;
+}
+
+h1{
+    color: $primary;
+    margin-bottom: $base-margin;
+}
+
+a{
+    color: $primary;
+}
+
+button{
+    color: white;
+    border: 0;
+    background: $primary;
+    border-radius: $base-border-radius;
+    padding: $base-padding;
+}
+
+.error{
+    color: $error;
+    border-color: $error;
+    border-style: solid;
+    margin: $base-margin;
+    padding: $base-padding;
+    border-radius: $base-border-radius;
+    border-width: $base-border-tickness;
+}
+.notification{
+    color: $secondary;
+    border-color: $secondary;
+    border-style: solid;
+    margin: $base-margin;
+    padding: $base-padding;
+    border-radius: $base-border-radius;
+    border-width: $base-border-tickness;
+}
