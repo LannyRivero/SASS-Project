@@ -1,0 +1,50 @@
+/* Todas las reglas @use deben ir al principio */
+@use '../variables' as v;
+@use 'sass:color'; // Para funciones de color como lighten()
+@use 'sass:math';  // Para operaciones matemáticas
+
+/* Mixin para botones */
+@mixin btn($bg-color: #e2e2e2) {
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  border: 0;
+  padding: v.$base-padding math.div(v.$base-padding, 2);
+  border-radius: v.$base-border-radius;
+  background-color: $bg-color;
+}
+
+/* Clase base de botones */
+.btn {
+  @include btn;
+}
+
+/* Iterar sobre colores */
+@each $key, $val in v.$colors {
+  .btn-#{$key} {
+    @include btn($val);
+
+    &:hover {
+      background-color: color.adjust($val, $lightness: 5%);
+    }
+  }
+
+  .btn-outlined-#{$key} {
+    @include btn(#fff);
+    border: v.$base-border-thickness solid $val;
+
+    &:hover {
+      background-color: $val;
+    }
+  }
+
+  .btn-complement-#{$key} {
+    @include btn($val);
+    color: light-comp($val);
+
+    &:hover {
+      color: $val;
+      background-color: light-comp($val);
+    }
+  }
+}

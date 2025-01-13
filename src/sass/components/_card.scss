@@ -1,0 +1,32 @@
+/* Importar al principio */
+@use '../variables' as v;  // Asegúrate de que 'variables' está en la ruta correcta
+@use 'sass:math';  // Importa la librería de matemáticas
+
+.card {
+  display: block;
+  padding: v.$base-padding;
+  border: v.$base-border-thickness solid #ddd;
+  box-shadow: v.$base-box-shadow; // Asegúrate de que esta variable existe en variables.scss
+  border-radius: math.div(v.$base-border-radius, 4); // Divide la variable usando math.div()
+
+  .card-title {
+    font-size: v.$base-font-size;
+    padding-bottom: v.$base-padding;
+    font-weight: bold;
+  }
+
+  .card-body {
+    font-size: v.$base-font-size;
+
+    a {
+      text-decoration: underline;
+    }
+  }
+}
+
+// @debug math.div(10, 3);
+// @debug math.$pi;
+// @debug math.floor(2.6);
+// @debug math.max(1px, 20px, 15px, 12px);
+
+

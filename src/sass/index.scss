@@ -1,56 +1,20 @@
-//.scss
+
 // variables & functions
-@import 'variables';
+@use 'functions';
+@use 'variables';
 
-/*reset styles*/
-*{
-    color: inherit;
-    margin: 0;
-}
-body{
-    font-family: Poppins;
-}
-hr{
-    border: 0;
-    border-top: 1px dotted #efefef;
-}
+// base & layout
+@use 'base';
+@use 'breakpoints';
+@use 'grid';
 
-img{
-    max-width: 100%;
-}
+// colors
+@use "colors";
 
-h1{
-    color: $primary;
-    margin-bottom: $base-margin;
-}
+// components (button, card, navbar etc)
+@use 'components/button';
+@use 'components/card';
 
-a{
-    color: $primary;
-}
+// utilities (margin, padding, opacity, etc)
+@use 'utilities';
 
-button{
-    color: white;
-    border: 0;
-    background: $primary;
-    border-radius: $base-border-radius;
-    padding: $base-padding;
-}
-
-.error{
-    color: $error;
-    border-color: $error;
-    border-style: solid;
-    margin: $base-margin;
-    padding: $base-padding;
-    border-radius: $base-border-radius;
-    border-width: $base-border-tickness;
-}
-.notification{
-    color: $secondary;
-    border-color: $secondary;
-    border-style: solid;
-    margin: $base-margin;
-    padding: $base-padding;
-    border-radius: $base-border-radius;
-    border-width: $base-border-tickness;
-}

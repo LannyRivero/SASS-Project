@@ -1,0 +1,49 @@
+@use 'variables' as v;
+
+@each $key, $val in v.$colors {
+  // Clases de color base
+  .text-#{$key} {
+    color: $val;
+  }
+  .text-hover-#{$key} {
+    &:hover {
+      color: $val;
+    }
+  }
+  .bg-#{$key} {
+    background-color: $val;
+  }
+
+  // Variaciones de color si el color no es negro ni blanco
+  @if ($val != v.$black and $val != v.$white) {
+    // Variaciones de luz
+    @for $i from 1 through 9 {
+      .text-#{$key}-light-#{$i} {
+        color: mix(v.$white, $val, $i * 10);
+      }
+      .text-hover-#{$key}-light-#{$i} {
+        &:hover {
+          color: mix(v.$white, $val, $i * 10);
+        }
+      }
+      .bg-#{$key}-light-#{$i} {
+        background-color: mix(v.$white, $val, $i * 10);
+      }
+    }
+
+    // Variaciones oscuras
+    @for $i from 1 through 9 {
+      .text-#{$key}-dark-#{$i} {
+        color: mix(v.$black, $val, $i * 10);
+      }
+      .text-hover-#{$key}-dark-#{$i} {
+        &:hover {
+          color: mix(v.$black, $val, $i * 10);
+        }
+      }
+      .bg-#{$key}-dark-#{$i} {
+        background-color: mix(v.$black, $val, $i * 10);
+      }
+    }
+  }
+}
