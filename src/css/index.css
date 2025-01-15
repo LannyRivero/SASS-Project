@@ -1,8 +1,14 @@
+@charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-.test-btn {
-  background-color: #9900ff;
-}
+/*Aquí estamos creando una variable y asignándole  valor. Las variables en Sass comienzan con el símbolo $, y son útiles para almacenar valores que usaremos en 
+varias partes del código, lo que facilita la modificación posterior.
+En Sass, las variables te permiten almacenar valores reutilizables, como colores, tamaños, etc.*/
+/*Este código en Sass está definiendo una serie de variables que permiten gestionar de manera fácil y centralizada los colores, el espaciado, los bordes, las sombras y 
+los tamaños de fuente en un proyecto. Esto hace que el diseño sea más mantenible, ya que si se desea cambiar algún valor (por ejemplo, el color primario o el tamaño base de la fuente),
 
+basta con modificarlo en un solo lugar en lugar de hacerlo manualmente en todo el código CSS.*/
+/* inicia un mapa de colores llamado $colors. Un mapa es una estructura de datos que asocia claves con valores.
+En este caso, cada clave (como "primary", "secondary", etc.) está asociada con un color específico.*/
 /* reset styles */
 * {
   color: inherit;
@@ -35,6 +41,13 @@ img {
   color: #326dee;
 }
 
+/*Este archivo utiliza una estructura modular y dinámica para crear un sistema de cuadrícula (grid) flexible y clases de 
+diseño relacionadas. 
+En este caso, se aprovechan las variables, los mixins, y el sistema de puntos de interrupción (breakpoints) 
+para adaptarse a diferentes tamaños de pantalla. Vamos a desglosar y explicar cada parte del código.*/
+/* Es una clase base que define el contenedor principal de tu diseño. Se asegura de que el contenedor ocupe el 100% del ancho de la pantalla (hasta un máximo de 1200px), 
+con márgenes automáticos para centrarlo. También se le
+ aplica un padding de 20px en los lados y se establece el modelo de caja (box-sizing: border-box) para incluir el padding dentro de las dimensiones totales del contenedor.*/
 .container {
   width: 100%;
   max-width: 1200px;
@@ -43,11 +56,19 @@ img {
   box-sizing: border-box;
 }
 
+/*Se utiliza para crear un contenedor de tipo flexbox, con dirección de fila y 
+envoltura de los elementos (lo que permite que las columnas se acomoden automáticamente si el espacio es insuficiente).*/
 .row {
   display: flex;
   flex-flow: row wrap;
 }
 
+/*Este bloque de código genera clases para los distintos tamaños de gap entre las columnas. Por ejemplo, para un gap de 10px, se genera:
+
+.gap-0 > *: Establece un padding de 0px para todos los hijos directos de este contenedor.
+.gap-1 > *: Establece un padding de 10px para todos los hijos directos.
+.gap-0: Establece márgenes negativos a los lados para compensar el padding y garantizar que las columnas se alineen correctamente.
+Este patrón se repite para todos los valores del mapa $grid-gaps.*/
 .gap-0 > * {
   padding: 0;
 }
@@ -84,6 +105,14 @@ img {
   margin-right: -30px;
 }
 
+/*Aquí se generan clases para aplicar las diferentes opciones de justify-content en los contenedores flex. Las clases generadas serán:
+
+.justify-flex-start
+.justify-flex-end
+.justify-center
+.justify-space-between
+.justify-space-around
+Estas clases permiten alinear los elementos de un contenedor flex de acuerdo a uno de los valores predefinidos en $layout-values.*/
 .justify-flex-start {
   justify-content: flex-start;
 }
@@ -104,6 +133,16 @@ img {
   justify-content: space-around;
 }
 
+/*@include bp.xs { ... }: Este bloque de código utiliza el mixin bp.xs, que probablemente aplica las reglas dentro de los puntos de 
+interrupción definidos para pantallas de tamaño "xs" (extra pequeñas).
+Dentro de cada uno de estos bloques, se utiliza un bucle @for para generar clases de columnas con anchos variables, desde .col-1-xs hasta .col-12-xs.
+El ancho de cada columna se calcula como una fracción del total de columnas (12 en este caso).
+
+El proceso se repite para cada uno de los puntos de interrupción (xs, sm, md, lg, xl), lo que permite crear un sistema de grid responsivo. Cada tamaño de columna 
+se adapta al tamaño de pantalla.
+
+Por ejemplo, para el tamaño xs, .col-1-xs tendrá un ancho de math.div(1 * 100%, 12), lo que da como resultado un 8.33% del ancho total, y así sucesivamente hasta .col-12-xs, 
+que ocupará el 100%.**/
 @media (min-width: 0) {
   .col-1-xs {
     box-sizing: border-box;
@@ -414,23 +453,35 @@ img {
     width: 100%;
   }
 }
+/*Este código genera un sistema de diseño basado en un grid flexible que utiliza flexbox.
+ El uso de breakpoints permite que las clases de columnas se adapten a diferentes tamaños de pantalla (responsivas), 
+ mientras que las utilidades de espaciado, justificación y el contenedor .container proporcionan una estructura 
+base para trabajar.*/
+/*En este fichero colors vamos a estar  genrando  clases de utilidad para los colores en CSS basados en una serie de colores 
+definidos en el fichero de variables. 
+
+Se crean clases de texto (text-*), 
+texto en estado hover (text-hover-*), 
+y fondos (bg-*) para cada color definido. 
+Además, se generan variaciones más claras y más oscuras de cada color (siempre que el color no sea negro ni blanco).*/
 .text-primary {
   color: #326dee;
 }
 
-.text-hover-primary:hover {
-  color: #326dee;
-}
+/*.text-hover-primary { //Crea una clase .text-hover-{key} para cambiar el color del texto al pasar el mouse sobre el elemento.
+  &:hover {
+    color: $val;
+  }
 
+}*/
 .bg-primary {
   background-color: #326dee;
 }
 
+/*Comprueba si el color actual no es negro ni blanco. Esto asegura que solo se generen variaciones de colores para tonos 
+que no sean estos */
+/*Crea un bucle que genera  variaciones más claras (light) y  más oscuras (dark) para el color actual. El rango va de 10% a 50%.*/
 .text-primary-light-1 {
-  color: rgb(70.5, 123.6, 239.7);
-}
-
-.text-hover-primary-light-1:hover {
   color: rgb(70.5, 123.6, 239.7);
 }
 
@@ -442,19 +493,11 @@ img {
   color: rgb(91, 138.2, 241.4);
 }
 
-.text-hover-primary-light-2:hover {
-  color: rgb(91, 138.2, 241.4);
-}
-
 .bg-primary-light-2 {
   background-color: rgb(91, 138.2, 241.4);
 }
 
 .text-primary-light-3 {
-  color: rgb(111.5, 152.8, 243.1);
-}
-
-.text-hover-primary-light-3:hover {
   color: rgb(111.5, 152.8, 243.1);
 }
 
@@ -466,10 +509,6 @@ img {
   color: rgb(132, 167.4, 244.8);
 }
 
-.text-hover-primary-light-4:hover {
-  color: rgb(132, 167.4, 244.8);
-}
-
 .bg-primary-light-4 {
   background-color: rgb(132, 167.4, 244.8);
 }
@@ -478,60 +517,8 @@ img {
   color: rgb(152.5, 182, 246.5);
 }
 
-.text-hover-primary-light-5:hover {
-  color: rgb(152.5, 182, 246.5);
-}
-
 .bg-primary-light-5 {
   background-color: rgb(152.5, 182, 246.5);
-}
-
-.text-primary-light-6 {
-  color: rgb(173, 196.6, 248.2);
-}
-
-.text-hover-primary-light-6:hover {
-  color: rgb(173, 196.6, 248.2);
-}
-
-.bg-primary-light-6 {
-  background-color: rgb(173, 196.6, 248.2);
-}
-
-.text-primary-light-7 {
-  color: rgb(193.5, 211.2, 249.9);
-}
-
-.text-hover-primary-light-7:hover {
-  color: rgb(193.5, 211.2, 249.9);
-}
-
-.bg-primary-light-7 {
-  background-color: rgb(193.5, 211.2, 249.9);
-}
-
-.text-primary-light-8 {
-  color: rgb(214, 225.8, 251.6);
-}
-
-.text-hover-primary-light-8:hover {
-  color: rgb(214, 225.8, 251.6);
-}
-
-.bg-primary-light-8 {
-  background-color: rgb(214, 225.8, 251.6);
-}
-
-.text-primary-light-9 {
-  color: rgb(234.5, 240.4, 253.3);
-}
-
-.text-hover-primary-light-9:hover {
-  color: rgb(234.5, 240.4, 253.3);
-}
-
-.bg-primary-light-9 {
-  background-color: rgb(234.5, 240.4, 253.3);
 }
 
 .text-primary-dark-1 {
@@ -594,71 +581,24 @@ img {
   background-color: rgb(25, 54.5, 119);
 }
 
-.text-primary-dark-6 {
-  color: rgb(20, 43.6, 95.2);
-}
-
-.text-hover-primary-dark-6:hover {
-  color: rgb(20, 43.6, 95.2);
-}
-
-.bg-primary-dark-6 {
-  background-color: rgb(20, 43.6, 95.2);
-}
-
-.text-primary-dark-7 {
-  color: rgb(15, 32.7, 71.4);
-}
-
-.text-hover-primary-dark-7:hover {
-  color: rgb(15, 32.7, 71.4);
-}
-
-.bg-primary-dark-7 {
-  background-color: rgb(15, 32.7, 71.4);
-}
-
-.text-primary-dark-8 {
-  color: rgb(10, 21.8, 47.6);
-}
-
-.text-hover-primary-dark-8:hover {
-  color: rgb(10, 21.8, 47.6);
-}
-
-.bg-primary-dark-8 {
-  background-color: rgb(10, 21.8, 47.6);
-}
-
-.text-primary-dark-9 {
-  color: rgb(5, 10.9, 23.8);
-}
-
-.text-hover-primary-dark-9:hover {
-  color: rgb(5, 10.9, 23.8);
-}
-
-.bg-primary-dark-9 {
-  background-color: rgb(5, 10.9, 23.8);
-}
-
 .text-secondary {
   color: #1ac886;
 }
 
-.text-hover-secondary:hover {
-  color: #1ac886;
-}
+/*.text-hover-secondary { //Crea una clase .text-hover-{key} para cambiar el color del texto al pasar el mouse sobre el elemento.
+  &:hover {
+    color: $val;
+  }
 
+}*/
 .bg-secondary {
   background-color: #1ac886;
 }
 
+/*Comprueba si el color actual no es negro ni blanco. Esto asegura que solo se generen variaciones de colores para tonos 
+que no sean estos */
+/*Crea un bucle que genera  variaciones más claras (light) y  más oscuras (dark) para el color actual. El rango va de 10% a 50%.*/
 .text-secondary-light-1 {
-  color: rgb(48.9, 205.5, 146.1);
-}
-
-.text-hover-secondary-light-1:hover {
   color: rgb(48.9, 205.5, 146.1);
 }
 
@@ -670,19 +610,11 @@ img {
   color: rgb(71.8, 211, 158.2);
 }
 
-.text-hover-secondary-light-2:hover {
-  color: rgb(71.8, 211, 158.2);
-}
-
 .bg-secondary-light-2 {
   background-color: rgb(71.8, 211, 158.2);
 }
 
 .text-secondary-light-3 {
-  color: rgb(94.7, 216.5, 170.3);
-}
-
-.text-hover-secondary-light-3:hover {
   color: rgb(94.7, 216.5, 170.3);
 }
 
@@ -694,10 +626,6 @@ img {
   color: rgb(117.6, 222, 182.4);
 }
 
-.text-hover-secondary-light-4:hover {
-  color: rgb(117.6, 222, 182.4);
-}
-
 .bg-secondary-light-4 {
   background-color: rgb(117.6, 222, 182.4);
 }
@@ -706,60 +634,8 @@ img {
   color: rgb(140.5, 227.5, 194.5);
 }
 
-.text-hover-secondary-light-5:hover {
-  color: rgb(140.5, 227.5, 194.5);
-}
-
 .bg-secondary-light-5 {
   background-color: rgb(140.5, 227.5, 194.5);
-}
-
-.text-secondary-light-6 {
-  color: rgb(163.4, 233, 206.6);
-}
-
-.text-hover-secondary-light-6:hover {
-  color: rgb(163.4, 233, 206.6);
-}
-
-.bg-secondary-light-6 {
-  background-color: rgb(163.4, 233, 206.6);
-}
-
-.text-secondary-light-7 {
-  color: rgb(186.3, 238.5, 218.7);
-}
-
-.text-hover-secondary-light-7:hover {
-  color: rgb(186.3, 238.5, 218.7);
-}
-
-.bg-secondary-light-7 {
-  background-color: rgb(186.3, 238.5, 218.7);
-}
-
-.text-secondary-light-8 {
-  color: rgb(209.2, 244, 230.8);
-}
-
-.text-hover-secondary-light-8:hover {
-  color: rgb(209.2, 244, 230.8);
-}
-
-.bg-secondary-light-8 {
-  background-color: rgb(209.2, 244, 230.8);
-}
-
-.text-secondary-light-9 {
-  color: rgb(232.1, 249.5, 242.9);
-}
-
-.text-hover-secondary-light-9:hover {
-  color: rgb(232.1, 249.5, 242.9);
-}
-
-.bg-secondary-light-9 {
-  background-color: rgb(232.1, 249.5, 242.9);
 }
 
 .text-secondary-dark-1 {
@@ -822,71 +698,24 @@ img {
   background-color: #0d6443;
 }
 
-.text-secondary-dark-6 {
-  color: rgb(10.4, 80, 53.6);
-}
-
-.text-hover-secondary-dark-6:hover {
-  color: rgb(10.4, 80, 53.6);
-}
-
-.bg-secondary-dark-6 {
-  background-color: rgb(10.4, 80, 53.6);
-}
-
-.text-secondary-dark-7 {
-  color: rgb(7.8, 60, 40.2);
-}
-
-.text-hover-secondary-dark-7:hover {
-  color: rgb(7.8, 60, 40.2);
-}
-
-.bg-secondary-dark-7 {
-  background-color: rgb(7.8, 60, 40.2);
-}
-
-.text-secondary-dark-8 {
-  color: rgb(5.2, 40, 26.8);
-}
-
-.text-hover-secondary-dark-8:hover {
-  color: rgb(5.2, 40, 26.8);
-}
-
-.bg-secondary-dark-8 {
-  background-color: rgb(5.2, 40, 26.8);
-}
-
-.text-secondary-dark-9 {
-  color: rgb(2.6, 20, 13.4);
-}
-
-.text-hover-secondary-dark-9:hover {
-  color: rgb(2.6, 20, 13.4);
-}
-
-.bg-secondary-dark-9 {
-  background-color: rgb(2.6, 20, 13.4);
-}
-
 .text-error {
   color: #d32752;
 }
 
-.text-hover-error:hover {
-  color: #d32752;
-}
+/*.text-hover-error { //Crea una clase .text-hover-{key} para cambiar el color del texto al pasar el mouse sobre el elemento.
+  &:hover {
+    color: $val;
+  }
 
+}*/
 .bg-error {
   background-color: #d32752;
 }
 
+/*Comprueba si el color actual no es negro ni blanco. Esto asegura que solo se generen variaciones de colores para tonos 
+que no sean estos */
+/*Crea un bucle que genera  variaciones más claras (light) y  más oscuras (dark) para el color actual. El rango va de 10% a 50%.*/
 .text-error-light-1 {
-  color: rgb(215.4, 60.6, 99.3);
-}
-
-.text-hover-error-light-1:hover {
   color: rgb(215.4, 60.6, 99.3);
 }
 
@@ -898,19 +727,11 @@ img {
   color: rgb(219.8, 82.2, 116.6);
 }
 
-.text-hover-error-light-2:hover {
-  color: rgb(219.8, 82.2, 116.6);
-}
-
 .bg-error-light-2 {
   background-color: rgb(219.8, 82.2, 116.6);
 }
 
 .text-error-light-3 {
-  color: rgb(224.2, 103.8, 133.9);
-}
-
-.text-hover-error-light-3:hover {
   color: rgb(224.2, 103.8, 133.9);
 }
 
@@ -922,10 +743,6 @@ img {
   color: rgb(228.6, 125.4, 151.2);
 }
 
-.text-hover-error-light-4:hover {
-  color: rgb(228.6, 125.4, 151.2);
-}
-
 .bg-error-light-4 {
   background-color: rgb(228.6, 125.4, 151.2);
 }
@@ -934,60 +751,8 @@ img {
   color: rgb(233, 147, 168.5);
 }
 
-.text-hover-error-light-5:hover {
-  color: rgb(233, 147, 168.5);
-}
-
 .bg-error-light-5 {
   background-color: rgb(233, 147, 168.5);
-}
-
-.text-error-light-6 {
-  color: rgb(237.4, 168.6, 185.8);
-}
-
-.text-hover-error-light-6:hover {
-  color: rgb(237.4, 168.6, 185.8);
-}
-
-.bg-error-light-6 {
-  background-color: rgb(237.4, 168.6, 185.8);
-}
-
-.text-error-light-7 {
-  color: rgb(241.8, 190.2, 203.1);
-}
-
-.text-hover-error-light-7:hover {
-  color: rgb(241.8, 190.2, 203.1);
-}
-
-.bg-error-light-7 {
-  background-color: rgb(241.8, 190.2, 203.1);
-}
-
-.text-error-light-8 {
-  color: rgb(246.2, 211.8, 220.4);
-}
-
-.text-hover-error-light-8:hover {
-  color: rgb(246.2, 211.8, 220.4);
-}
-
-.bg-error-light-8 {
-  background-color: rgb(246.2, 211.8, 220.4);
-}
-
-.text-error-light-9 {
-  color: rgb(250.6, 233.4, 237.7);
-}
-
-.text-hover-error-light-9:hover {
-  color: rgb(250.6, 233.4, 237.7);
-}
-
-.bg-error-light-9 {
-  background-color: rgb(250.6, 233.4, 237.7);
 }
 
 .text-error-dark-1 {
@@ -1050,71 +815,24 @@ img {
   background-color: rgb(105.5, 19.5, 41);
 }
 
-.text-error-dark-6 {
-  color: rgb(84.4, 15.6, 32.8);
-}
-
-.text-hover-error-dark-6:hover {
-  color: rgb(84.4, 15.6, 32.8);
-}
-
-.bg-error-dark-6 {
-  background-color: rgb(84.4, 15.6, 32.8);
-}
-
-.text-error-dark-7 {
-  color: rgb(63.3, 11.7, 24.6);
-}
-
-.text-hover-error-dark-7:hover {
-  color: rgb(63.3, 11.7, 24.6);
-}
-
-.bg-error-dark-7 {
-  background-color: rgb(63.3, 11.7, 24.6);
-}
-
-.text-error-dark-8 {
-  color: rgb(42.2, 7.8, 16.4);
-}
-
-.text-hover-error-dark-8:hover {
-  color: rgb(42.2, 7.8, 16.4);
-}
-
-.bg-error-dark-8 {
-  background-color: rgb(42.2, 7.8, 16.4);
-}
-
-.text-error-dark-9 {
-  color: rgb(21.1, 3.9, 8.2);
-}
-
-.text-hover-error-dark-9:hover {
-  color: rgb(21.1, 3.9, 8.2);
-}
-
-.bg-error-dark-9 {
-  background-color: rgb(21.1, 3.9, 8.2);
-}
-
 .text-info {
   color: #f6c31c;
 }
 
-.text-hover-info:hover {
-  color: #f6c31c;
-}
+/*.text-hover-info { //Crea una clase .text-hover-{key} para cambiar el color del texto al pasar el mouse sobre el elemento.
+  &:hover {
+    color: $val;
+  }
 
+}*/
 .bg-info {
   background-color: #f6c31c;
 }
 
+/*Comprueba si el color actual no es negro ni blanco. Esto asegura que solo se generen variaciones de colores para tonos 
+que no sean estos */
+/*Crea un bucle que genera  variaciones más claras (light) y  más oscuras (dark) para el color actual. El rango va de 10% a 50%.*/
 .text-info-light-1 {
-  color: rgb(246.9, 201, 50.7);
-}
-
-.text-hover-info-light-1:hover {
   color: rgb(246.9, 201, 50.7);
 }
 
@@ -1126,19 +844,11 @@ img {
   color: rgb(247.8, 207, 73.4);
 }
 
-.text-hover-info-light-2:hover {
-  color: rgb(247.8, 207, 73.4);
-}
-
 .bg-info-light-2 {
   background-color: rgb(247.8, 207, 73.4);
 }
 
 .text-info-light-3 {
-  color: rgb(248.7, 213, 96.1);
-}
-
-.text-hover-info-light-3:hover {
   color: rgb(248.7, 213, 96.1);
 }
 
@@ -1150,10 +860,6 @@ img {
   color: rgb(249.6, 219, 118.8);
 }
 
-.text-hover-info-light-4:hover {
-  color: rgb(249.6, 219, 118.8);
-}
-
 .bg-info-light-4 {
   background-color: rgb(249.6, 219, 118.8);
 }
@@ -1162,60 +868,8 @@ img {
   color: rgb(250.5, 225, 141.5);
 }
 
-.text-hover-info-light-5:hover {
-  color: rgb(250.5, 225, 141.5);
-}
-
 .bg-info-light-5 {
   background-color: rgb(250.5, 225, 141.5);
-}
-
-.text-info-light-6 {
-  color: rgb(251.4, 231, 164.2);
-}
-
-.text-hover-info-light-6:hover {
-  color: rgb(251.4, 231, 164.2);
-}
-
-.bg-info-light-6 {
-  background-color: rgb(251.4, 231, 164.2);
-}
-
-.text-info-light-7 {
-  color: rgb(252.3, 237, 186.9);
-}
-
-.text-hover-info-light-7:hover {
-  color: rgb(252.3, 237, 186.9);
-}
-
-.bg-info-light-7 {
-  background-color: rgb(252.3, 237, 186.9);
-}
-
-.text-info-light-8 {
-  color: rgb(253.2, 243, 209.6);
-}
-
-.text-hover-info-light-8:hover {
-  color: rgb(253.2, 243, 209.6);
-}
-
-.bg-info-light-8 {
-  background-color: rgb(253.2, 243, 209.6);
-}
-
-.text-info-light-9 {
-  color: rgb(254.1, 249, 232.3);
-}
-
-.text-hover-info-light-9:hover {
-  color: rgb(254.1, 249, 232.3);
-}
-
-.bg-info-light-9 {
-  background-color: rgb(254.1, 249, 232.3);
 }
 
 .text-info-dark-1 {
@@ -1278,71 +932,24 @@ img {
   background-color: rgb(123, 97.5, 14);
 }
 
-.text-info-dark-6 {
-  color: rgb(98.4, 78, 11.2);
-}
-
-.text-hover-info-dark-6:hover {
-  color: rgb(98.4, 78, 11.2);
-}
-
-.bg-info-dark-6 {
-  background-color: rgb(98.4, 78, 11.2);
-}
-
-.text-info-dark-7 {
-  color: rgb(73.8, 58.5, 8.4);
-}
-
-.text-hover-info-dark-7:hover {
-  color: rgb(73.8, 58.5, 8.4);
-}
-
-.bg-info-dark-7 {
-  background-color: rgb(73.8, 58.5, 8.4);
-}
-
-.text-info-dark-8 {
-  color: rgb(49.2, 39, 5.6);
-}
-
-.text-hover-info-dark-8:hover {
-  color: rgb(49.2, 39, 5.6);
-}
-
-.bg-info-dark-8 {
-  background-color: rgb(49.2, 39, 5.6);
-}
-
-.text-info-dark-9 {
-  color: rgb(24.6, 19.5, 2.8);
-}
-
-.text-hover-info-dark-9:hover {
-  color: rgb(24.6, 19.5, 2.8);
-}
-
-.bg-info-dark-9 {
-  background-color: rgb(24.6, 19.5, 2.8);
-}
-
 .text-blue {
   color: #1919e6;
 }
 
-.text-hover-blue:hover {
-  color: #1919e6;
-}
+/*.text-hover-blue { //Crea una clase .text-hover-{key} para cambiar el color del texto al pasar el mouse sobre el elemento.
+  &:hover {
+    color: $val;
+  }
 
+}*/
 .bg-blue {
   background-color: #1919e6;
 }
 
+/*Comprueba si el color actual no es negro ni blanco. Esto asegura que solo se generen variaciones de colores para tonos 
+que no sean estos */
+/*Crea un bucle que genera  variaciones más claras (light) y  más oscuras (dark) para el color actual. El rango va de 10% a 50%.*/
 .text-blue-light-1 {
-  color: rgb(48, 48, 232.5);
-}
-
-.text-hover-blue-light-1:hover {
   color: rgb(48, 48, 232.5);
 }
 
@@ -1354,19 +961,11 @@ img {
   color: #4747eb;
 }
 
-.text-hover-blue-light-2:hover {
-  color: #4747eb;
-}
-
 .bg-blue-light-2 {
   background-color: #4747eb;
 }
 
 .text-blue-light-3 {
-  color: rgb(94, 94, 237.5);
-}
-
-.text-hover-blue-light-3:hover {
   color: rgb(94, 94, 237.5);
 }
 
@@ -1378,10 +977,6 @@ img {
   color: #7575f0;
 }
 
-.text-hover-blue-light-4:hover {
-  color: #7575f0;
-}
-
 .bg-blue-light-4 {
   background-color: #7575f0;
 }
@@ -1390,60 +985,8 @@ img {
   color: rgb(140, 140, 242.5);
 }
 
-.text-hover-blue-light-5:hover {
-  color: rgb(140, 140, 242.5);
-}
-
 .bg-blue-light-5 {
   background-color: rgb(140, 140, 242.5);
-}
-
-.text-blue-light-6 {
-  color: #a3a3f5;
-}
-
-.text-hover-blue-light-6:hover {
-  color: #a3a3f5;
-}
-
-.bg-blue-light-6 {
-  background-color: #a3a3f5;
-}
-
-.text-blue-light-7 {
-  color: rgb(186, 186, 247.5);
-}
-
-.text-hover-blue-light-7:hover {
-  color: rgb(186, 186, 247.5);
-}
-
-.bg-blue-light-7 {
-  background-color: rgb(186, 186, 247.5);
-}
-
-.text-blue-light-8 {
-  color: #d1d1fa;
-}
-
-.text-hover-blue-light-8:hover {
-  color: #d1d1fa;
-}
-
-.bg-blue-light-8 {
-  background-color: #d1d1fa;
-}
-
-.text-blue-light-9 {
-  color: rgb(232, 232, 252.5);
-}
-
-.text-hover-blue-light-9:hover {
-  color: rgb(232, 232, 252.5);
-}
-
-.bg-blue-light-9 {
-  background-color: rgb(232, 232, 252.5);
 }
 
 .text-blue-dark-1 {
@@ -1506,71 +1049,24 @@ img {
   background-color: rgb(12.5, 12.5, 115);
 }
 
-.text-blue-dark-6 {
-  color: #0a0a5c;
-}
-
-.text-hover-blue-dark-6:hover {
-  color: #0a0a5c;
-}
-
-.bg-blue-dark-6 {
-  background-color: #0a0a5c;
-}
-
-.text-blue-dark-7 {
-  color: rgb(7.5, 7.5, 69);
-}
-
-.text-hover-blue-dark-7:hover {
-  color: rgb(7.5, 7.5, 69);
-}
-
-.bg-blue-dark-7 {
-  background-color: rgb(7.5, 7.5, 69);
-}
-
-.text-blue-dark-8 {
-  color: #05052e;
-}
-
-.text-hover-blue-dark-8:hover {
-  color: #05052e;
-}
-
-.bg-blue-dark-8 {
-  background-color: #05052e;
-}
-
-.text-blue-dark-9 {
-  color: rgb(2.5, 2.5, 23);
-}
-
-.text-hover-blue-dark-9:hover {
-  color: rgb(2.5, 2.5, 23);
-}
-
-.bg-blue-dark-9 {
-  background-color: rgb(2.5, 2.5, 23);
-}
-
 .text-red {
   color: #e61919;
 }
 
-.text-hover-red:hover {
-  color: #e61919;
-}
+/*.text-hover-red { //Crea una clase .text-hover-{key} para cambiar el color del texto al pasar el mouse sobre el elemento.
+  &:hover {
+    color: $val;
+  }
 
+}*/
 .bg-red {
   background-color: #e61919;
 }
 
+/*Comprueba si el color actual no es negro ni blanco. Esto asegura que solo se generen variaciones de colores para tonos 
+que no sean estos */
+/*Crea un bucle que genera  variaciones más claras (light) y  más oscuras (dark) para el color actual. El rango va de 10% a 50%.*/
 .text-red-light-1 {
-  color: rgb(232.5, 48, 48);
-}
-
-.text-hover-red-light-1:hover {
   color: rgb(232.5, 48, 48);
 }
 
@@ -1582,19 +1078,11 @@ img {
   color: #eb4747;
 }
 
-.text-hover-red-light-2:hover {
-  color: #eb4747;
-}
-
 .bg-red-light-2 {
   background-color: #eb4747;
 }
 
 .text-red-light-3 {
-  color: rgb(237.5, 94, 94);
-}
-
-.text-hover-red-light-3:hover {
   color: rgb(237.5, 94, 94);
 }
 
@@ -1606,10 +1094,6 @@ img {
   color: #f07575;
 }
 
-.text-hover-red-light-4:hover {
-  color: #f07575;
-}
-
 .bg-red-light-4 {
   background-color: #f07575;
 }
@@ -1618,60 +1102,8 @@ img {
   color: rgb(242.5, 140, 140);
 }
 
-.text-hover-red-light-5:hover {
-  color: rgb(242.5, 140, 140);
-}
-
 .bg-red-light-5 {
   background-color: rgb(242.5, 140, 140);
-}
-
-.text-red-light-6 {
-  color: #f5a3a3;
-}
-
-.text-hover-red-light-6:hover {
-  color: #f5a3a3;
-}
-
-.bg-red-light-6 {
-  background-color: #f5a3a3;
-}
-
-.text-red-light-7 {
-  color: rgb(247.5, 186, 186);
-}
-
-.text-hover-red-light-7:hover {
-  color: rgb(247.5, 186, 186);
-}
-
-.bg-red-light-7 {
-  background-color: rgb(247.5, 186, 186);
-}
-
-.text-red-light-8 {
-  color: #fad1d1;
-}
-
-.text-hover-red-light-8:hover {
-  color: #fad1d1;
-}
-
-.bg-red-light-8 {
-  background-color: #fad1d1;
-}
-
-.text-red-light-9 {
-  color: rgb(252.5, 232, 232);
-}
-
-.text-hover-red-light-9:hover {
-  color: rgb(252.5, 232, 232);
-}
-
-.bg-red-light-9 {
-  background-color: rgb(252.5, 232, 232);
 }
 
 .text-red-dark-1 {
@@ -1734,1218 +1166,38 @@ img {
   background-color: rgb(115, 12.5, 12.5);
 }
 
-.text-red-dark-6 {
-  color: #5c0a0a;
-}
-
-.text-hover-red-dark-6:hover {
-  color: #5c0a0a;
-}
-
-.bg-red-dark-6 {
-  background-color: #5c0a0a;
-}
-
-.text-red-dark-7 {
-  color: rgb(69, 7.5, 7.5);
-}
-
-.text-hover-red-dark-7:hover {
-  color: rgb(69, 7.5, 7.5);
-}
-
-.bg-red-dark-7 {
-  background-color: rgb(69, 7.5, 7.5);
-}
-
-.text-red-dark-8 {
-  color: #2e0505;
-}
-
-.text-hover-red-dark-8:hover {
-  color: #2e0505;
-}
-
-.bg-red-dark-8 {
-  background-color: #2e0505;
-}
-
-.text-red-dark-9 {
-  color: rgb(23, 2.5, 2.5);
-}
-
-.text-hover-red-dark-9:hover {
-  color: rgb(23, 2.5, 2.5);
-}
-
-.bg-red-dark-9 {
-  background-color: rgb(23, 2.5, 2.5);
-}
-
-.text-yellow {
-  color: #e6e619;
-}
-
-.text-hover-yellow:hover {
-  color: #e6e619;
-}
-
-.bg-yellow {
-  background-color: #e6e619;
-}
-
-.text-yellow-light-1 {
-  color: rgb(232.5, 232.5, 48);
-}
-
-.text-hover-yellow-light-1:hover {
-  color: rgb(232.5, 232.5, 48);
-}
-
-.bg-yellow-light-1 {
-  background-color: rgb(232.5, 232.5, 48);
-}
-
-.text-yellow-light-2 {
-  color: #ebeb47;
-}
-
-.text-hover-yellow-light-2:hover {
-  color: #ebeb47;
-}
-
-.bg-yellow-light-2 {
-  background-color: #ebeb47;
-}
-
-.text-yellow-light-3 {
-  color: rgb(237.5, 237.5, 94);
-}
-
-.text-hover-yellow-light-3:hover {
-  color: rgb(237.5, 237.5, 94);
-}
-
-.bg-yellow-light-3 {
-  background-color: rgb(237.5, 237.5, 94);
-}
-
-.text-yellow-light-4 {
-  color: #f0f075;
-}
-
-.text-hover-yellow-light-4:hover {
-  color: #f0f075;
-}
-
-.bg-yellow-light-4 {
-  background-color: #f0f075;
-}
-
-.text-yellow-light-5 {
-  color: rgb(242.5, 242.5, 140);
-}
-
-.text-hover-yellow-light-5:hover {
-  color: rgb(242.5, 242.5, 140);
-}
-
-.bg-yellow-light-5 {
-  background-color: rgb(242.5, 242.5, 140);
-}
-
-.text-yellow-light-6 {
-  color: #f5f5a3;
-}
-
-.text-hover-yellow-light-6:hover {
-  color: #f5f5a3;
-}
-
-.bg-yellow-light-6 {
-  background-color: #f5f5a3;
-}
-
-.text-yellow-light-7 {
-  color: rgb(247.5, 247.5, 186);
-}
-
-.text-hover-yellow-light-7:hover {
-  color: rgb(247.5, 247.5, 186);
-}
-
-.bg-yellow-light-7 {
-  background-color: rgb(247.5, 247.5, 186);
-}
-
-.text-yellow-light-8 {
-  color: #fafad1;
-}
-
-.text-hover-yellow-light-8:hover {
-  color: #fafad1;
-}
-
-.bg-yellow-light-8 {
-  background-color: #fafad1;
-}
-
-.text-yellow-light-9 {
-  color: rgb(252.5, 252.5, 232);
-}
-
-.text-hover-yellow-light-9:hover {
-  color: rgb(252.5, 252.5, 232);
-}
-
-.bg-yellow-light-9 {
-  background-color: rgb(252.5, 252.5, 232);
-}
-
-.text-yellow-dark-1 {
-  color: rgb(207, 207, 22.5);
-}
-
-.text-hover-yellow-dark-1:hover {
-  color: rgb(207, 207, 22.5);
-}
-
-.bg-yellow-dark-1 {
-  background-color: rgb(207, 207, 22.5);
-}
-
-.text-yellow-dark-2 {
-  color: #b8b814;
-}
-
-.text-hover-yellow-dark-2:hover {
-  color: #b8b814;
-}
-
-.bg-yellow-dark-2 {
-  background-color: #b8b814;
-}
-
-.text-yellow-dark-3 {
-  color: rgb(161, 161, 17.5);
-}
-
-.text-hover-yellow-dark-3:hover {
-  color: rgb(161, 161, 17.5);
-}
-
-.bg-yellow-dark-3 {
-  background-color: rgb(161, 161, 17.5);
-}
-
-.text-yellow-dark-4 {
-  color: #8a8a0f;
-}
-
-.text-hover-yellow-dark-4:hover {
-  color: #8a8a0f;
-}
-
-.bg-yellow-dark-4 {
-  background-color: #8a8a0f;
-}
-
-.text-yellow-dark-5 {
-  color: rgb(115, 115, 12.5);
-}
-
-.text-hover-yellow-dark-5:hover {
-  color: rgb(115, 115, 12.5);
-}
-
-.bg-yellow-dark-5 {
-  background-color: rgb(115, 115, 12.5);
-}
-
-.text-yellow-dark-6 {
-  color: #5c5c0a;
-}
-
-.text-hover-yellow-dark-6:hover {
-  color: #5c5c0a;
-}
-
-.bg-yellow-dark-6 {
-  background-color: #5c5c0a;
-}
-
-.text-yellow-dark-7 {
-  color: rgb(69, 69, 7.5);
-}
-
-.text-hover-yellow-dark-7:hover {
-  color: rgb(69, 69, 7.5);
-}
-
-.bg-yellow-dark-7 {
-  background-color: rgb(69, 69, 7.5);
-}
-
-.text-yellow-dark-8 {
-  color: #2e2e05;
-}
-
-.text-hover-yellow-dark-8:hover {
-  color: #2e2e05;
-}
-
-.bg-yellow-dark-8 {
-  background-color: #2e2e05;
-}
-
-.text-yellow-dark-9 {
-  color: rgb(23, 23, 2.5);
-}
-
-.text-hover-yellow-dark-9:hover {
-  color: rgb(23, 23, 2.5);
-}
-
-.bg-yellow-dark-9 {
-  background-color: rgb(23, 23, 2.5);
-}
-
-.text-green {
-  color: #19e635;
-}
-
-.text-hover-green:hover {
-  color: #19e635;
-}
-
-.bg-green {
-  background-color: #19e635;
-}
-
-.text-green-light-1 {
-  color: rgb(48, 232.5, 73.2);
-}
-
-.text-hover-green-light-1:hover {
-  color: rgb(48, 232.5, 73.2);
-}
-
-.bg-green-light-1 {
-  background-color: rgb(48, 232.5, 73.2);
-}
-
-.text-green-light-2 {
-  color: rgb(71, 235, 93.4);
-}
-
-.text-hover-green-light-2:hover {
-  color: rgb(71, 235, 93.4);
-}
-
-.bg-green-light-2 {
-  background-color: rgb(71, 235, 93.4);
-}
-
-.text-green-light-3 {
-  color: rgb(94, 237.5, 113.6);
-}
-
-.text-hover-green-light-3:hover {
-  color: rgb(94, 237.5, 113.6);
-}
-
-.bg-green-light-3 {
-  background-color: rgb(94, 237.5, 113.6);
-}
-
-.text-green-light-4 {
-  color: rgb(117, 240, 133.8);
-}
-
-.text-hover-green-light-4:hover {
-  color: rgb(117, 240, 133.8);
-}
-
-.bg-green-light-4 {
-  background-color: rgb(117, 240, 133.8);
-}
-
-.text-green-light-5 {
-  color: rgb(140, 242.5, 154);
-}
-
-.text-hover-green-light-5:hover {
-  color: rgb(140, 242.5, 154);
-}
-
-.bg-green-light-5 {
-  background-color: rgb(140, 242.5, 154);
-}
-
-.text-green-light-6 {
-  color: rgb(163, 245, 174.2);
-}
-
-.text-hover-green-light-6:hover {
-  color: rgb(163, 245, 174.2);
-}
-
-.bg-green-light-6 {
-  background-color: rgb(163, 245, 174.2);
-}
-
-.text-green-light-7 {
-  color: rgb(186, 247.5, 194.4);
-}
-
-.text-hover-green-light-7:hover {
-  color: rgb(186, 247.5, 194.4);
-}
-
-.bg-green-light-7 {
-  background-color: rgb(186, 247.5, 194.4);
-}
-
-.text-green-light-8 {
-  color: rgb(209, 250, 214.6);
-}
-
-.text-hover-green-light-8:hover {
-  color: rgb(209, 250, 214.6);
-}
-
-.bg-green-light-8 {
-  background-color: rgb(209, 250, 214.6);
-}
-
-.text-green-light-9 {
-  color: rgb(232, 252.5, 234.8);
-}
-
-.text-hover-green-light-9:hover {
-  color: rgb(232, 252.5, 234.8);
-}
-
-.bg-green-light-9 {
-  background-color: rgb(232, 252.5, 234.8);
-}
-
-.text-green-dark-1 {
-  color: rgb(22.5, 207, 47.7);
-}
-
-.text-hover-green-dark-1:hover {
-  color: rgb(22.5, 207, 47.7);
-}
-
-.bg-green-dark-1 {
-  background-color: rgb(22.5, 207, 47.7);
-}
-
-.text-green-dark-2 {
-  color: rgb(20, 184, 42.4);
-}
-
-.text-hover-green-dark-2:hover {
-  color: rgb(20, 184, 42.4);
-}
-
-.bg-green-dark-2 {
-  background-color: rgb(20, 184, 42.4);
-}
-
-.text-green-dark-3 {
-  color: rgb(17.5, 161, 37.1);
-}
-
-.text-hover-green-dark-3:hover {
-  color: rgb(17.5, 161, 37.1);
-}
-
-.bg-green-dark-3 {
-  background-color: rgb(17.5, 161, 37.1);
-}
-
-.text-green-dark-4 {
-  color: rgb(15, 138, 31.8);
-}
-
-.text-hover-green-dark-4:hover {
-  color: rgb(15, 138, 31.8);
-}
-
-.bg-green-dark-4 {
-  background-color: rgb(15, 138, 31.8);
-}
-
-.text-green-dark-5 {
-  color: rgb(12.5, 115, 26.5);
-}
-
-.text-hover-green-dark-5:hover {
-  color: rgb(12.5, 115, 26.5);
-}
-
-.bg-green-dark-5 {
-  background-color: rgb(12.5, 115, 26.5);
-}
-
-.text-green-dark-6 {
-  color: rgb(10, 92, 21.2);
-}
-
-.text-hover-green-dark-6:hover {
-  color: rgb(10, 92, 21.2);
-}
-
-.bg-green-dark-6 {
-  background-color: rgb(10, 92, 21.2);
-}
-
-.text-green-dark-7 {
-  color: rgb(7.5, 69, 15.9);
-}
-
-.text-hover-green-dark-7:hover {
-  color: rgb(7.5, 69, 15.9);
-}
-
-.bg-green-dark-7 {
-  background-color: rgb(7.5, 69, 15.9);
-}
-
-.text-green-dark-8 {
-  color: rgb(5, 46, 10.6);
-}
-
-.text-hover-green-dark-8:hover {
-  color: rgb(5, 46, 10.6);
-}
-
-.bg-green-dark-8 {
-  background-color: rgb(5, 46, 10.6);
-}
-
-.text-green-dark-9 {
-  color: rgb(2.5, 23, 5.3);
-}
-
-.text-hover-green-dark-9:hover {
-  color: rgb(2.5, 23, 5.3);
-}
-
-.bg-green-dark-9 {
-  background-color: rgb(2.5, 23, 5.3);
-}
-
-.text-orange {
-  color: #ffa600;
-}
-
-.text-hover-orange:hover {
-  color: #ffa600;
-}
-
-.bg-orange {
-  background-color: #ffa600;
-}
-
-.text-orange-light-1 {
-  color: rgb(255, 174.9, 25.5);
-}
-
-.text-hover-orange-light-1:hover {
-  color: rgb(255, 174.9, 25.5);
-}
-
-.bg-orange-light-1 {
-  background-color: rgb(255, 174.9, 25.5);
-}
-
-.text-orange-light-2 {
-  color: rgb(255, 183.8, 51);
-}
-
-.text-hover-orange-light-2:hover {
-  color: rgb(255, 183.8, 51);
-}
-
-.bg-orange-light-2 {
-  background-color: rgb(255, 183.8, 51);
-}
-
-.text-orange-light-3 {
-  color: rgb(255, 192.7, 76.5);
-}
-
-.text-hover-orange-light-3:hover {
-  color: rgb(255, 192.7, 76.5);
-}
-
-.bg-orange-light-3 {
-  background-color: rgb(255, 192.7, 76.5);
-}
-
-.text-orange-light-4 {
-  color: rgb(255, 201.6, 102);
-}
-
-.text-hover-orange-light-4:hover {
-  color: rgb(255, 201.6, 102);
-}
-
-.bg-orange-light-4 {
-  background-color: rgb(255, 201.6, 102);
-}
-
-.text-orange-light-5 {
-  color: rgb(255, 210.5, 127.5);
-}
-
-.text-hover-orange-light-5:hover {
-  color: rgb(255, 210.5, 127.5);
-}
-
-.bg-orange-light-5 {
-  background-color: rgb(255, 210.5, 127.5);
-}
-
-.text-orange-light-6 {
-  color: rgb(255, 219.4, 153);
-}
-
-.text-hover-orange-light-6:hover {
-  color: rgb(255, 219.4, 153);
-}
-
-.bg-orange-light-6 {
-  background-color: rgb(255, 219.4, 153);
-}
-
-.text-orange-light-7 {
-  color: rgb(255, 228.3, 178.5);
-}
-
-.text-hover-orange-light-7:hover {
-  color: rgb(255, 228.3, 178.5);
-}
-
-.bg-orange-light-7 {
-  background-color: rgb(255, 228.3, 178.5);
-}
-
-.text-orange-light-8 {
-  color: rgb(255, 237.2, 204);
-}
-
-.text-hover-orange-light-8:hover {
-  color: rgb(255, 237.2, 204);
-}
-
-.bg-orange-light-8 {
-  background-color: rgb(255, 237.2, 204);
-}
-
-.text-orange-light-9 {
-  color: rgb(255, 246.1, 229.5);
-}
-
-.text-hover-orange-light-9:hover {
-  color: rgb(255, 246.1, 229.5);
-}
-
-.bg-orange-light-9 {
-  background-color: rgb(255, 246.1, 229.5);
-}
-
-.text-orange-dark-1 {
-  color: rgb(229.5, 149.4, 0);
-}
-
-.text-hover-orange-dark-1:hover {
-  color: rgb(229.5, 149.4, 0);
-}
-
-.bg-orange-dark-1 {
-  background-color: rgb(229.5, 149.4, 0);
-}
-
-.text-orange-dark-2 {
-  color: rgb(204, 132.8, 0);
-}
-
-.text-hover-orange-dark-2:hover {
-  color: rgb(204, 132.8, 0);
-}
-
-.bg-orange-dark-2 {
-  background-color: rgb(204, 132.8, 0);
-}
-
-.text-orange-dark-3 {
-  color: rgb(178.5, 116.2, 0);
-}
-
-.text-hover-orange-dark-3:hover {
-  color: rgb(178.5, 116.2, 0);
-}
-
-.bg-orange-dark-3 {
-  background-color: rgb(178.5, 116.2, 0);
-}
-
-.text-orange-dark-4 {
-  color: rgb(153, 99.6, 0);
-}
-
-.text-hover-orange-dark-4:hover {
-  color: rgb(153, 99.6, 0);
-}
-
-.bg-orange-dark-4 {
-  background-color: rgb(153, 99.6, 0);
-}
-
-.text-orange-dark-5 {
-  color: rgb(127.5, 83, 0);
-}
-
-.text-hover-orange-dark-5:hover {
-  color: rgb(127.5, 83, 0);
-}
-
-.bg-orange-dark-5 {
-  background-color: rgb(127.5, 83, 0);
-}
-
-.text-orange-dark-6 {
-  color: rgb(102, 66.4, 0);
-}
-
-.text-hover-orange-dark-6:hover {
-  color: rgb(102, 66.4, 0);
-}
-
-.bg-orange-dark-6 {
-  background-color: rgb(102, 66.4, 0);
-}
-
-.text-orange-dark-7 {
-  color: rgb(76.5, 49.8, 0);
-}
-
-.text-hover-orange-dark-7:hover {
-  color: rgb(76.5, 49.8, 0);
-}
-
-.bg-orange-dark-7 {
-  background-color: rgb(76.5, 49.8, 0);
-}
-
-.text-orange-dark-8 {
-  color: rgb(51, 33.2, 0);
-}
-
-.text-hover-orange-dark-8:hover {
-  color: rgb(51, 33.2, 0);
-}
-
-.bg-orange-dark-8 {
-  background-color: rgb(51, 33.2, 0);
-}
-
-.text-orange-dark-9 {
-  color: rgb(25.5, 16.6, 0);
-}
-
-.text-hover-orange-dark-9:hover {
-  color: rgb(25.5, 16.6, 0);
-}
-
-.bg-orange-dark-9 {
-  background-color: rgb(25.5, 16.6, 0);
-}
-
-.text-purple {
-  color: #9900ff;
-}
-
-.text-hover-purple:hover {
-  color: #9900ff;
-}
-
-.bg-purple {
-  background-color: #9900ff;
-}
-
-.text-purple-light-1 {
-  color: rgb(163.2, 25.5, 255);
-}
-
-.text-hover-purple-light-1:hover {
-  color: rgb(163.2, 25.5, 255);
-}
-
-.bg-purple-light-1 {
-  background-color: rgb(163.2, 25.5, 255);
-}
-
-.text-purple-light-2 {
-  color: rgb(173.4, 51, 255);
-}
-
-.text-hover-purple-light-2:hover {
-  color: rgb(173.4, 51, 255);
-}
-
-.bg-purple-light-2 {
-  background-color: rgb(173.4, 51, 255);
-}
-
-.text-purple-light-3 {
-  color: rgb(183.6, 76.5, 255);
-}
-
-.text-hover-purple-light-3:hover {
-  color: rgb(183.6, 76.5, 255);
-}
-
-.bg-purple-light-3 {
-  background-color: rgb(183.6, 76.5, 255);
-}
-
-.text-purple-light-4 {
-  color: rgb(193.8, 102, 255);
-}
-
-.text-hover-purple-light-4:hover {
-  color: rgb(193.8, 102, 255);
-}
-
-.bg-purple-light-4 {
-  background-color: rgb(193.8, 102, 255);
-}
-
-.text-purple-light-5 {
-  color: rgb(204, 127.5, 255);
-}
-
-.text-hover-purple-light-5:hover {
-  color: rgb(204, 127.5, 255);
-}
-
-.bg-purple-light-5 {
-  background-color: rgb(204, 127.5, 255);
-}
-
-.text-purple-light-6 {
-  color: rgb(214.2, 153, 255);
-}
-
-.text-hover-purple-light-6:hover {
-  color: rgb(214.2, 153, 255);
-}
-
-.bg-purple-light-6 {
-  background-color: rgb(214.2, 153, 255);
-}
-
-.text-purple-light-7 {
-  color: rgb(224.4, 178.5, 255);
-}
-
-.text-hover-purple-light-7:hover {
-  color: rgb(224.4, 178.5, 255);
-}
-
-.bg-purple-light-7 {
-  background-color: rgb(224.4, 178.5, 255);
-}
-
-.text-purple-light-8 {
-  color: rgb(234.6, 204, 255);
-}
-
-.text-hover-purple-light-8:hover {
-  color: rgb(234.6, 204, 255);
-}
-
-.bg-purple-light-8 {
-  background-color: rgb(234.6, 204, 255);
-}
-
-.text-purple-light-9 {
-  color: rgb(244.8, 229.5, 255);
-}
-
-.text-hover-purple-light-9:hover {
-  color: rgb(244.8, 229.5, 255);
-}
-
-.bg-purple-light-9 {
-  background-color: rgb(244.8, 229.5, 255);
-}
-
-.text-purple-dark-1 {
-  color: rgb(137.7, 0, 229.5);
-}
-
-.text-hover-purple-dark-1:hover {
-  color: rgb(137.7, 0, 229.5);
-}
-
-.bg-purple-dark-1 {
-  background-color: rgb(137.7, 0, 229.5);
-}
-
-.text-purple-dark-2 {
-  color: rgb(122.4, 0, 204);
-}
-
-.text-hover-purple-dark-2:hover {
-  color: rgb(122.4, 0, 204);
-}
-
-.bg-purple-dark-2 {
-  background-color: rgb(122.4, 0, 204);
-}
-
-.text-purple-dark-3 {
-  color: rgb(107.1, 0, 178.5);
-}
-
-.text-hover-purple-dark-3:hover {
-  color: rgb(107.1, 0, 178.5);
-}
-
-.bg-purple-dark-3 {
-  background-color: rgb(107.1, 0, 178.5);
-}
-
-.text-purple-dark-4 {
-  color: rgb(91.8, 0, 153);
-}
-
-.text-hover-purple-dark-4:hover {
-  color: rgb(91.8, 0, 153);
-}
-
-.bg-purple-dark-4 {
-  background-color: rgb(91.8, 0, 153);
-}
-
-.text-purple-dark-5 {
-  color: rgb(76.5, 0, 127.5);
-}
-
-.text-hover-purple-dark-5:hover {
-  color: rgb(76.5, 0, 127.5);
-}
-
-.bg-purple-dark-5 {
-  background-color: rgb(76.5, 0, 127.5);
-}
-
-.text-purple-dark-6 {
-  color: rgb(61.2, 0, 102);
-}
-
-.text-hover-purple-dark-6:hover {
-  color: rgb(61.2, 0, 102);
-}
-
-.bg-purple-dark-6 {
-  background-color: rgb(61.2, 0, 102);
-}
-
-.text-purple-dark-7 {
-  color: rgb(45.9, 0, 76.5);
-}
-
-.text-hover-purple-dark-7:hover {
-  color: rgb(45.9, 0, 76.5);
-}
-
-.bg-purple-dark-7 {
-  background-color: rgb(45.9, 0, 76.5);
-}
-
-.text-purple-dark-8 {
-  color: rgb(30.6, 0, 51);
-}
-
-.text-hover-purple-dark-8:hover {
-  color: rgb(30.6, 0, 51);
-}
-
-.bg-purple-dark-8 {
-  background-color: rgb(30.6, 0, 51);
-}
-
-.text-purple-dark-9 {
-  color: rgb(15.3, 0, 25.5);
-}
-
-.text-hover-purple-dark-9:hover {
-  color: rgb(15.3, 0, 25.5);
-}
-
-.bg-purple-dark-9 {
-  background-color: rgb(15.3, 0, 25.5);
-}
-
-.text-gray {
-  color: #808080;
-}
-
-.text-hover-gray:hover {
-  color: #808080;
-}
-
-.bg-gray {
-  background-color: #808080;
-}
-
-.text-gray-light-1 {
-  color: rgb(140.7, 140.7, 140.7);
-}
-
-.text-hover-gray-light-1:hover {
-  color: rgb(140.7, 140.7, 140.7);
-}
-
-.bg-gray-light-1 {
-  background-color: rgb(140.7, 140.7, 140.7);
-}
-
-.text-gray-light-2 {
-  color: rgb(153.4, 153.4, 153.4);
-}
-
-.text-hover-gray-light-2:hover {
-  color: rgb(153.4, 153.4, 153.4);
-}
-
-.bg-gray-light-2 {
-  background-color: rgb(153.4, 153.4, 153.4);
-}
-
-.text-gray-light-3 {
-  color: rgb(166.1, 166.1, 166.1);
-}
-
-.text-hover-gray-light-3:hover {
-  color: rgb(166.1, 166.1, 166.1);
-}
-
-.bg-gray-light-3 {
-  background-color: rgb(166.1, 166.1, 166.1);
-}
-
-.text-gray-light-4 {
-  color: rgb(178.8, 178.8, 178.8);
-}
-
-.text-hover-gray-light-4:hover {
-  color: rgb(178.8, 178.8, 178.8);
-}
-
-.bg-gray-light-4 {
-  background-color: rgb(178.8, 178.8, 178.8);
-}
-
-.text-gray-light-5 {
-  color: rgb(191.5, 191.5, 191.5);
-}
-
-.text-hover-gray-light-5:hover {
-  color: rgb(191.5, 191.5, 191.5);
-}
-
-.bg-gray-light-5 {
-  background-color: rgb(191.5, 191.5, 191.5);
-}
-
-.text-gray-light-6 {
-  color: rgb(204.2, 204.2, 204.2);
-}
-
-.text-hover-gray-light-6:hover {
-  color: rgb(204.2, 204.2, 204.2);
-}
-
-.bg-gray-light-6 {
-  background-color: rgb(204.2, 204.2, 204.2);
-}
-
-.text-gray-light-7 {
-  color: rgb(216.9, 216.9, 216.9);
-}
-
-.text-hover-gray-light-7:hover {
-  color: rgb(216.9, 216.9, 216.9);
-}
-
-.bg-gray-light-7 {
-  background-color: rgb(216.9, 216.9, 216.9);
-}
-
-.text-gray-light-8 {
-  color: rgb(229.6, 229.6, 229.6);
-}
-
-.text-hover-gray-light-8:hover {
-  color: rgb(229.6, 229.6, 229.6);
-}
-
-.bg-gray-light-8 {
-  background-color: rgb(229.6, 229.6, 229.6);
-}
-
-.text-gray-light-9 {
-  color: rgb(242.3, 242.3, 242.3);
-}
-
-.text-hover-gray-light-9:hover {
-  color: rgb(242.3, 242.3, 242.3);
-}
-
-.bg-gray-light-9 {
-  background-color: rgb(242.3, 242.3, 242.3);
-}
-
-.text-gray-dark-1 {
-  color: rgb(115.2, 115.2, 115.2);
-}
-
-.text-hover-gray-dark-1:hover {
-  color: rgb(115.2, 115.2, 115.2);
-}
-
-.bg-gray-dark-1 {
-  background-color: rgb(115.2, 115.2, 115.2);
-}
-
-.text-gray-dark-2 {
-  color: rgb(102.4, 102.4, 102.4);
-}
-
-.text-hover-gray-dark-2:hover {
-  color: rgb(102.4, 102.4, 102.4);
-}
-
-.bg-gray-dark-2 {
-  background-color: rgb(102.4, 102.4, 102.4);
-}
-
-.text-gray-dark-3 {
-  color: rgb(89.6, 89.6, 89.6);
-}
-
-.text-hover-gray-dark-3:hover {
-  color: rgb(89.6, 89.6, 89.6);
-}
-
-.bg-gray-dark-3 {
-  background-color: rgb(89.6, 89.6, 89.6);
-}
-
-.text-gray-dark-4 {
-  color: rgb(76.8, 76.8, 76.8);
-}
-
-.text-hover-gray-dark-4:hover {
-  color: rgb(76.8, 76.8, 76.8);
-}
-
-.bg-gray-dark-4 {
-  background-color: rgb(76.8, 76.8, 76.8);
-}
-
-.text-gray-dark-5 {
-  color: #404040;
-}
-
-.text-hover-gray-dark-5:hover {
-  color: #404040;
-}
-
-.bg-gray-dark-5 {
-  background-color: #404040;
-}
-
-.text-gray-dark-6 {
-  color: rgb(51.2, 51.2, 51.2);
-}
-
-.text-hover-gray-dark-6:hover {
-  color: rgb(51.2, 51.2, 51.2);
-}
-
-.bg-gray-dark-6 {
-  background-color: rgb(51.2, 51.2, 51.2);
-}
-
-.text-gray-dark-7 {
-  color: rgb(38.4, 38.4, 38.4);
-}
-
-.text-hover-gray-dark-7:hover {
-  color: rgb(38.4, 38.4, 38.4);
-}
-
-.bg-gray-dark-7 {
-  background-color: rgb(38.4, 38.4, 38.4);
-}
-
-.text-gray-dark-8 {
-  color: rgb(25.6, 25.6, 25.6);
-}
-
-.text-hover-gray-dark-8:hover {
-  color: rgb(25.6, 25.6, 25.6);
-}
-
-.bg-gray-dark-8 {
-  background-color: rgb(25.6, 25.6, 25.6);
-}
-
-.text-gray-dark-9 {
-  color: rgb(12.8, 12.8, 12.8);
-}
-
-.text-hover-gray-dark-9:hover {
-  color: rgb(12.8, 12.8, 12.8);
-}
-
-.bg-gray-dark-9 {
-  background-color: rgb(12.8, 12.8, 12.8);
-}
-
 .text-black {
   color: #000000;
 }
 
-.text-hover-black:hover {
-  color: #000000;
-}
+/*.text-hover-black { //Crea una clase .text-hover-{key} para cambiar el color del texto al pasar el mouse sobre el elemento.
+  &:hover {
+    color: $val;
+  }
 
+}*/
 .bg-black {
   background-color: #000000;
 }
 
+/*Comprueba si el color actual no es negro ni blanco. Esto asegura que solo se generen variaciones de colores para tonos 
+que no sean estos */
 .text-white {
   color: #ffffff;
 }
 
-.text-hover-white:hover {
-  color: #ffffff;
-}
+/*.text-hover-white { //Crea una clase .text-hover-{key} para cambiar el color del texto al pasar el mouse sobre el elemento.
+  &:hover {
+    color: $val;
+  }
 
+}*/
 .bg-white {
   background-color: #ffffff;
 }
 
+/*Comprueba si el color actual no es negro ni blanco. Esto asegura que solo se generen variaciones de colores para tonos 
+que no sean estos */
 /* Todas las reglas @use deben ir al principio */
 /* Mixin para botones */
 /* Clase base de botones */
@@ -3212,216 +1464,6 @@ img {
   background-color: light-comp(#e61919);
 }
 
-.btn-yellow {
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-  border: 0;
-  padding: 0.75rem 0.375rem;
-  border-radius: 20px;
-  background-color: #e6e619;
-}
-.btn-yellow:hover {
-  background-color: rgb(232.5, 232.5, 48);
-}
-
-.btn-outlined-yellow {
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-  border: 0;
-  padding: 0.75rem 0.375rem;
-  border-radius: 20px;
-  background-color: #fff;
-  border: 1px solid #e6e619;
-}
-.btn-outlined-yellow:hover {
-  background-color: #e6e619;
-}
-
-.btn-complement-yellow {
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-  border: 0;
-  padding: 0.75rem 0.375rem;
-  border-radius: 20px;
-  background-color: #e6e619;
-  color: light-comp(#e6e619);
-}
-.btn-complement-yellow:hover {
-  color: #e6e619;
-  background-color: light-comp(#e6e619);
-}
-
-.btn-green {
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-  border: 0;
-  padding: 0.75rem 0.375rem;
-  border-radius: 20px;
-  background-color: #19e635;
-}
-.btn-green:hover {
-  background-color: rgb(48, 232.5, 73.2);
-}
-
-.btn-outlined-green {
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-  border: 0;
-  padding: 0.75rem 0.375rem;
-  border-radius: 20px;
-  background-color: #fff;
-  border: 1px solid #19e635;
-}
-.btn-outlined-green:hover {
-  background-color: #19e635;
-}
-
-.btn-complement-green {
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-  border: 0;
-  padding: 0.75rem 0.375rem;
-  border-radius: 20px;
-  background-color: #19e635;
-  color: light-comp(#19e635);
-}
-.btn-complement-green:hover {
-  color: #19e635;
-  background-color: light-comp(#19e635);
-}
-
-.btn-orange {
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-  border: 0;
-  padding: 0.75rem 0.375rem;
-  border-radius: 20px;
-  background-color: #ffa600;
-}
-.btn-orange:hover {
-  background-color: rgb(255, 174.9, 25.5);
-}
-
-.btn-outlined-orange {
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-  border: 0;
-  padding: 0.75rem 0.375rem;
-  border-radius: 20px;
-  background-color: #fff;
-  border: 1px solid #ffa600;
-}
-.btn-outlined-orange:hover {
-  background-color: #ffa600;
-}
-
-.btn-complement-orange {
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-  border: 0;
-  padding: 0.75rem 0.375rem;
-  border-radius: 20px;
-  background-color: #ffa600;
-  color: light-comp(#ffa600);
-}
-.btn-complement-orange:hover {
-  color: #ffa600;
-  background-color: light-comp(#ffa600);
-}
-
-.btn-purple {
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-  border: 0;
-  padding: 0.75rem 0.375rem;
-  border-radius: 20px;
-  background-color: #9900ff;
-}
-.btn-purple:hover {
-  background-color: rgb(163.2, 25.5, 255);
-}
-
-.btn-outlined-purple {
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-  border: 0;
-  padding: 0.75rem 0.375rem;
-  border-radius: 20px;
-  background-color: #fff;
-  border: 1px solid #9900ff;
-}
-.btn-outlined-purple:hover {
-  background-color: #9900ff;
-}
-
-.btn-complement-purple {
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-  border: 0;
-  padding: 0.75rem 0.375rem;
-  border-radius: 20px;
-  background-color: #9900ff;
-  color: light-comp(#9900ff);
-}
-.btn-complement-purple:hover {
-  color: #9900ff;
-  background-color: light-comp(#9900ff);
-}
-
-.btn-gray {
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-  border: 0;
-  padding: 0.75rem 0.375rem;
-  border-radius: 20px;
-  background-color: #808080;
-}
-.btn-gray:hover {
-  background-color: rgb(140.75, 140.75, 140.75);
-}
-
-.btn-outlined-gray {
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-  border: 0;
-  padding: 0.75rem 0.375rem;
-  border-radius: 20px;
-  background-color: #fff;
-  border: 1px solid #808080;
-}
-.btn-outlined-gray:hover {
-  background-color: #808080;
-}
-
-.btn-complement-gray {
-  text-decoration: none;
-  cursor: pointer;
-  display: inline-block;
-  border: 0;
-  padding: 0.75rem 0.375rem;
-  border-radius: 20px;
-  background-color: #808080;
-  color: light-comp(#808080);
-}
-.btn-complement-gray:hover {
-  color: #808080;
-  background-color: light-comp(#808080);
-}
-
 .btn-black {
   text-decoration: none;
   cursor: pointer;
@@ -3526,7 +1568,12 @@ img {
   text-decoration: underline;
 }
 
-.navbar .container, .navbar-white .container, .navbar-black .container, .navbar-gray .container, .navbar-purple .container, .navbar-orange .container, .navbar-green .container, .navbar-yellow .container, .navbar-red .container, .navbar-blue .container, .navbar-info .container, .navbar-error .container, .navbar-secondary .container, .navbar-primary .container, .navbar, .navbar-white, .navbar-black, .navbar-gray, .navbar-purple, .navbar-orange, .navbar-green, .navbar-yellow, .navbar-red, .navbar-blue, .navbar-info, .navbar-error, .navbar-secondary, .navbar-primary {
+/**crear una estructura reutilizable de diseño de una barra de navegación (navbar),
+ vamos a usar placeholder selector (%flex-layout), mapas de variables (como $colors), y funciones como @extend*/
+/*En elplaceholder definimos un layout flexible donde se  centra los elementos verticalmente (align-items: center)
+ y los distribuye horizontalmente con espacio entre ellos (justify-content: space-between).
+ El uso del placeholder nos va a permitir reutilizar este bloque de estilos mediante @extend sin generar CSS innecesario.*/
+.navbar .container, .navbar-white .container, .navbar-black .container, .navbar-red .container, .navbar-blue .container, .navbar-info .container, .navbar-error .container, .navbar-secondary .container, .navbar-primary .container, .navbar, .navbar-white, .navbar-black, .navbar-red, .navbar-blue, .navbar-info, .navbar-error, .navbar-secondary, .navbar-primary {
   width: 100%;
   display: flex;
   align-items: center;
@@ -3534,13 +1581,24 @@ img {
   box-sizing: border-box;
 }
 
-.navbar, .navbar-white, .navbar-black, .navbar-gray, .navbar-purple, .navbar-orange, .navbar-green, .navbar-yellow, .navbar-red, .navbar-blue, .navbar-info, .navbar-error, .navbar-secondary, .navbar-primary {
+/*La clase .navbar: Va a herdar las propiedades del placeholder %flex-layout con @extend.
+Agrega propiedades adicionales como padding y box-shadow provenientes de las variables v.$base-padding y 
+v.$base-box-shadow.
+//La clase hija .site-title define el tamaño de fuente con v.$font-size-lg, mientras que .container reutiliza el
+mismo layout flexible.*/
+.navbar, .navbar-white, .navbar-black, .navbar-red, .navbar-blue, .navbar-info, .navbar-error, .navbar-secondary, .navbar-primary {
   padding: 0.75rem 1.5rem;
   box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
 }
-.navbar .site-title, .navbar-white .site-title, .navbar-black .site-title, .navbar-gray .site-title, .navbar-purple .site-title, .navbar-orange .site-title, .navbar-green .site-title, .navbar-yellow .site-title, .navbar-red .site-title, .navbar-blue .site-title, .navbar-info .site-title, .navbar-error .site-title, .navbar-secondary .site-title, .navbar-primary .site-title {
+.navbar .site-title, .navbar-white .site-title, .navbar-black .site-title, .navbar-red .site-title, .navbar-blue .site-title, .navbar-info .site-title, .navbar-error .site-title, .navbar-secondary .site-title, .navbar-primary .site-title {
   font-size: 1.5rem;
 }
+/*Recorre el mapa de colores (v.$colors), donde:
+$key es el nombre del color (ejemplo: primary, secondary).
+$val es el valor del color (ejemplo: #3498db, #2ecc71).
+Por cada par clave-valor, se genera una clase .navbar-<key> que:
+Extiende los estilos de .navbar.
+Aplica un color de fondo único (background-color: $val).*/
 .navbar-primary {
   background-color: #326dee;
 }
@@ -3565,26 +1623,6 @@ img {
   background-color: #e61919;
 }
 
-.navbar-yellow {
-  background-color: #e6e619;
-}
-
-.navbar-green {
-  background-color: #19e635;
-}
-
-.navbar-orange {
-  background-color: #ffa600;
-}
-
-.navbar-purple {
-  background-color: #9900ff;
-}
-
-.navbar-gray {
-  background-color: #808080;
-}
-
 .navbar-black {
   background-color: #000000;
 }
@@ -3593,6 +1631,23 @@ img {
   background-color: #ffffff;
 }
 
+/*Ventajas del Enfoque
+Eficiencia: Uso de @extend reduce la repetición de código.
+Escalabilidad: Fácil de agregar nuevos colores al mapa $colors para generar variantes adicionales.
+Mantenibilidad: Centralización de estilos base y dinámicos mediante el archivo de variables.*/
+/* crear un sistema de clases utilitarias reutilizables, y hace uso de varias características avanzadas de Sass, 
+como maps, loops, y la extensión del uso de variables. */
+/*El código define un mapa de utilidades ($utilities) que contiene una serie de configuraciones relacionadas con espaciado,
+ márgenes, opacidad, bordes, tipografía y disposición. Cada propiedad de utilidad está organizada con un prefijo y un conjunto de valores.*/
+/*Este patrón se repite para otras propiedades de utilidad, como márgenes, opacidad, bordes y tamaños de fuente. Es importante destacar que este
+enfoque centraliza el diseño y permite crear clases reutilizables para espaciados y otros estilos a través de un sistema consistente.*/
+/*crea dinámicamente las clases CSS utilizando las configuraciones definidas en el mapa de utilidades ($utilities).*/
+/*Si el valor de la clave es default, la clase generada será simplemente .prefix (por ejemplo, .p para padding).
+
+Si la clave es diferente a default, se añade un sufijo a la clase, como .p-1, .p-2, etc., generando clases como .p-1, .p-2, etc., que aplican diferentes niveles de padding.
+Por ejemplo:
+
+Para el caso de padding, si $values tiene una clave 1, se generará la clase .p-1 con el valor de padding correspondiente.*/
 .p-0 {
   padding: 0;
 }
@@ -3617,6 +1672,12 @@ img {
   padding: 6rem;
 }
 
+/*Si el valor de la clave es default, la clase generada será simplemente .prefix (por ejemplo, .p para padding).
+
+Si la clave es diferente a default, se añade un sufijo a la clase, como .p-1, .p-2, etc., generando clases como .p-1, .p-2, etc., que aplican diferentes niveles de padding.
+Por ejemplo:
+
+Para el caso de padding, si $values tiene una clave 1, se generará la clase .p-1 con el valor de padding correspondiente.*/
 .pl-0 {
   padding-left: 0;
 }
@@ -3641,6 +1702,12 @@ img {
   padding-left: 6rem;
 }
 
+/*Si el valor de la clave es default, la clase generada será simplemente .prefix (por ejemplo, .p para padding).
+
+Si la clave es diferente a default, se añade un sufijo a la clase, como .p-1, .p-2, etc., generando clases como .p-1, .p-2, etc., que aplican diferentes niveles de padding.
+Por ejemplo:
+
+Para el caso de padding, si $values tiene una clave 1, se generará la clase .p-1 con el valor de padding correspondiente.*/
 .pr-0 {
   padding-right: 0;
 }
@@ -3665,6 +1732,12 @@ img {
   padding-right: 6rem;
 }
 
+/*Si el valor de la clave es default, la clase generada será simplemente .prefix (por ejemplo, .p para padding).
+
+Si la clave es diferente a default, se añade un sufijo a la clase, como .p-1, .p-2, etc., generando clases como .p-1, .p-2, etc., que aplican diferentes niveles de padding.
+Por ejemplo:
+
+Para el caso de padding, si $values tiene una clave 1, se generará la clase .p-1 con el valor de padding correspondiente.*/
 .pt-0 {
   padding-top: 0;
 }
@@ -3689,6 +1762,12 @@ img {
   padding-top: 6rem;
 }
 
+/*Si el valor de la clave es default, la clase generada será simplemente .prefix (por ejemplo, .p para padding).
+
+Si la clave es diferente a default, se añade un sufijo a la clase, como .p-1, .p-2, etc., generando clases como .p-1, .p-2, etc., que aplican diferentes niveles de padding.
+Por ejemplo:
+
+Para el caso de padding, si $values tiene una clave 1, se generará la clase .p-1 con el valor de padding correspondiente.*/
 .pb-0 {
   padding-bottom: 0;
 }
@@ -3713,6 +1792,12 @@ img {
   padding-bottom: 6rem;
 }
 
+/*Si el valor de la clave es default, la clase generada será simplemente .prefix (por ejemplo, .p para padding).
+
+Si la clave es diferente a default, se añade un sufijo a la clase, como .p-1, .p-2, etc., generando clases como .p-1, .p-2, etc., que aplican diferentes niveles de padding.
+Por ejemplo:
+
+Para el caso de padding, si $values tiene una clave 1, se generará la clase .p-1 con el valor de padding correspondiente.*/
 .m-0 {
   margin: 0;
 }
@@ -3737,6 +1822,12 @@ img {
   margin: 6rem;
 }
 
+/*Si el valor de la clave es default, la clase generada será simplemente .prefix (por ejemplo, .p para padding).
+
+Si la clave es diferente a default, se añade un sufijo a la clase, como .p-1, .p-2, etc., generando clases como .p-1, .p-2, etc., que aplican diferentes niveles de padding.
+Por ejemplo:
+
+Para el caso de padding, si $values tiene una clave 1, se generará la clase .p-1 con el valor de padding correspondiente.*/
 .ml-0 {
   margin-left: 0;
 }
@@ -3761,6 +1852,12 @@ img {
   margin-left: 6rem;
 }
 
+/*Si el valor de la clave es default, la clase generada será simplemente .prefix (por ejemplo, .p para padding).
+
+Si la clave es diferente a default, se añade un sufijo a la clase, como .p-1, .p-2, etc., generando clases como .p-1, .p-2, etc., que aplican diferentes niveles de padding.
+Por ejemplo:
+
+Para el caso de padding, si $values tiene una clave 1, se generará la clase .p-1 con el valor de padding correspondiente.*/
 .mr-0 {
   margin-right: 0;
 }
@@ -3785,6 +1882,12 @@ img {
   margin-right: 6rem;
 }
 
+/*Si el valor de la clave es default, la clase generada será simplemente .prefix (por ejemplo, .p para padding).
+
+Si la clave es diferente a default, se añade un sufijo a la clase, como .p-1, .p-2, etc., generando clases como .p-1, .p-2, etc., que aplican diferentes niveles de padding.
+Por ejemplo:
+
+Para el caso de padding, si $values tiene una clave 1, se generará la clase .p-1 con el valor de padding correspondiente.*/
 .mt-0 {
   margin-top: 0;
 }
@@ -3809,6 +1912,12 @@ img {
   margin-top: 6rem;
 }
 
+/*Si el valor de la clave es default, la clase generada será simplemente .prefix (por ejemplo, .p para padding).
+
+Si la clave es diferente a default, se añade un sufijo a la clase, como .p-1, .p-2, etc., generando clases como .p-1, .p-2, etc., que aplican diferentes niveles de padding.
+Por ejemplo:
+
+Para el caso de padding, si $values tiene una clave 1, se generará la clase .p-1 con el valor de padding correspondiente.*/
 .mb-0 {
   margin-bottom: 0;
 }
@@ -3833,6 +1942,12 @@ img {
   margin-bottom: 6rem;
 }
 
+/*Si el valor de la clave es default, la clase generada será simplemente .prefix (por ejemplo, .p para padding).
+
+Si la clave es diferente a default, se añade un sufijo a la clase, como .p-1, .p-2, etc., generando clases como .p-1, .p-2, etc., que aplican diferentes niveles de padding.
+Por ejemplo:
+
+Para el caso de padding, si $values tiene una clave 1, se generará la clase .p-1 con el valor de padding correspondiente.*/
 .o-10 {
   opacity: 0.1;
 }
@@ -3873,6 +1988,12 @@ img {
   opacity: 1;
 }
 
+/*Si el valor de la clave es default, la clase generada será simplemente .prefix (por ejemplo, .p para padding).
+
+Si la clave es diferente a default, se añade un sufijo a la clase, como .p-1, .p-2, etc., generando clases como .p-1, .p-2, etc., que aplican diferentes niveles de padding.
+Por ejemplo:
+
+Para el caso de padding, si $values tiene una clave 1, se generará la clase .p-1 con el valor de padding correspondiente.*/
 .br {
   border-radius: 20px;
 }
@@ -3897,6 +2018,12 @@ img {
   border-radius: 50%;
 }
 
+/*Si el valor de la clave es default, la clase generada será simplemente .prefix (por ejemplo, .p para padding).
+
+Si la clave es diferente a default, se añade un sufijo a la clase, como .p-1, .p-2, etc., generando clases como .p-1, .p-2, etc., que aplican diferentes niveles de padding.
+Por ejemplo:
+
+Para el caso de padding, si $values tiene una clave 1, se generará la clase .p-1 con el valor de padding correspondiente.*/
 .display-n {
   display: none;
 }
@@ -3917,6 +2044,12 @@ img {
   display: inline-block;
 }
 
+/*Si el valor de la clave es default, la clase generada será simplemente .prefix (por ejemplo, .p para padding).
+
+Si la clave es diferente a default, se añade un sufijo a la clase, como .p-1, .p-2, etc., generando clases como .p-1, .p-2, etc., que aplican diferentes niveles de padding.
+Por ejemplo:
+
+Para el caso de padding, si $values tiene una clave 1, se generará la clase .p-1 con el valor de padding correspondiente.*/
 .font-sm {
   font-size: 0.75rem;
 }
@@ -3936,5 +2069,10 @@ img {
 .font-xxl {
   font-size: 3rem;
 }
+
+/*El resultado final de este código es la creación de clases utilitarias dinámicas y reutilizables que pueden ser utilizadas directamente en el HTML 
+para aplicar estilos, sin tener que escribir CSS adicional. Por ejemplo, para el padding, las clases generadas serían:
+Este enfoque modular y dinámico en Sass proporciona una manera muy flexible y escalable de crear un sistema de utilidades para tus estilos. Al definir todo en un solo archivo, 
+las clases CSS se generan de manera automática y reutilizable, facilitando la gestión de los estilos y promoviendo la consistencia en el diseño del proyecto.*/
 
 /*# sourceMappingURL=index.css.map */

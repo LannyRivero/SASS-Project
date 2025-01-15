@@ -1,4 +1,13 @@
+/**crear una estructura reutilizable de diseño de una barra de navegación (navbar),
+ vamos a usar placeholder selector (%flex-layout), mapas de variables (como $colors), y funciones como @extend*/
+
+
 @use '../variables' as v;
+
+
+/*En elplaceholder definimos un layout flexible donde se  centra los elementos verticalmente (align-items: center)
+ y los distribuye horizontalmente con espacio entre ellos (justify-content: space-between).
+ El uso del placeholder nos va a permitir reutilizar este bloque de estilos mediante @extend sin generar CSS innecesario.*/
 
 %flex-layout {
     width: 100%;
@@ -7,7 +16,12 @@
     justify-content: space-between;
     box-sizing: border-box;
   }
-  
+  /*La clase .navbar: Va a herdar las propiedades del placeholder %flex-layout con @extend.
+Agrega propiedades adicionales como padding y box-shadow provenientes de las variables v.$base-padding y 
+v.$base-box-shadow.
+//La clase hija .site-title define el tamaño de fuente con v.$font-size-lg, mientras que .container reutiliza el
+mismo layout flexible.*/
+
   .navbar {
     @extend %flex-layout;
     padding: v.$base-padding v.$base-padding * 2;
@@ -19,10 +33,21 @@
       @extend %flex-layout;
     }
   }
-  
+  /*Recorre el mapa de colores (v.$colors), donde:
+  $key es el nombre del color (ejemplo: primary, secondary).
+  $val es el valor del color (ejemplo: #3498db, #2ecc71).
+  Por cada par clave-valor, se genera una clase .navbar-<key> que:
+  Extiende los estilos de .navbar.
+  Aplica un color de fondo único (background-color: $val).*/
+
   @each $key, $val in v.$colors {
     .navbar-#{$key} {
       @extend .navbar;
       background-color: $val;
     }
   }
+
+  /*Ventajas del Enfoque
+  Eficiencia: Uso de @extend reduce la repetición de código.
+  Escalabilidad: Fácil de agregar nuevos colores al mapa $colors para generar variantes adicionales.
+  Mantenibilidad: Centralización de estilos base y dinámicos mediante el archivo de variables.*/

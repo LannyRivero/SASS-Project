@@ -1,3 +1,11 @@
+/*Aquí estamos creando una variable y asignándole  valor. Las variables en Sass comienzan con el símbolo $, y son útiles para almacenar valores que usaremos en 
+varias partes del código, lo que facilita la modificación posterior.
+En Sass, las variables te permiten almacenar valores reutilizables, como colores, tamaños, etc.*/
+
+/*Este código en Sass está definiendo una serie de variables que permiten gestionar de manera fácil y centralizada los colores, el espaciado, los bordes, las sombras y 
+los tamaños de fuente en un proyecto. Esto hace que el diseño sea más mantenible, ya que si se desea cambiar algún valor (por ejemplo, el color primario o el tamaño base de la fuente),
+
+basta con modificarlo en un solo lugar en lugar de hacerlo manualmente en todo el código CSS.*/
 
 
 // theme colors
@@ -10,6 +18,8 @@ $info: #f6c31c;
 $black: #000000;  // Definir black explícitamente
 $white: #ffffff;  // Definir white explícitamente
 
+/* inicia un mapa de colores llamado $colors. Un mapa es una estructura de datos que asocia claves con valores.
+En este caso, cada clave (como "primary", "secondary", etc.) está asociada con un color específico.*/
 // color palette
 $colors: (
   "primary": $primary,
@@ -17,25 +27,12 @@ $colors: (
   "error": $error,
   "info": $info,
   "blue": #1919e6,
-  "red": #e61919,
-  "yellow": #e6e619,
-  "green": #19e635,
-  "orange": #ffa600,
-  "purple": #9900ff,
-  "gray": #808080,
+  "red": #e61919, 
   "black": $black, // Utilizamos la variable $black
   "white": $white, // Utilizamos la variable $white
 );
 
-.test-btn{
-    background-color: map-get($colors, "purple");
-}
 
-//@debug map-get($colors, "purple");
-//@debug map-has-key($colors, "secondary");
-//@debug map-has-key($colors, "tertiary");
-//@debug map-remove($colors, "primary");
-//@debug map-merge($colors, ("pink": #ffc0cb)),
 
 // spacing
 $base-padding: 0.75rem;

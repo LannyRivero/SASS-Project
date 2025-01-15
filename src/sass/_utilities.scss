@@ -1,10 +1,20 @@
-@use 'sass:math';
+/* crear un sistema de clases utilitarias reutilizables, y hace uso de varias características avanzadas de Sass, 
+como maps, loops, y la extensión del uso de variables. */
+
+
+@use 'sass:math'; //Importa el módulo math de Sass, lo que permite utilizar funciones matemáticas avanzadas (por ejemplo, divisiones, multiplicaciones)
 @use 'variables' as v;
+
+/*El código define un mapa de utilidades ($utilities) que contiene una serie de configuraciones relacionadas con espaciado,
+ márgenes, opacidad, bordes, tipografía y disposición. Cada propiedad de utilidad está organizada con un prefijo y un conjunto de valores.*/
+
+ /*Este patrón se repite para otras propiedades de utilidad, como márgenes, opacidad, bordes y tamaños de fuente. Es importante destacar que este
+enfoque centraliza el diseño y permite crear clases reutilizables para espaciados y otros estilos a través de un sistema consistente.*/
 
 $utilities: (
   "padding": (
-    "prefix": "p",
-    "values": (
+    "prefix": "p",//el prefijo que se usará para la clase generada (en este caso, todas las clases de padding tendrán el prefijo p).
+    "values": ( //Un conjunto de valores asociados con diferentes niveles de espaciado. En este caso, el padding varía entre 0, 1, 2, 3, 4 y 5
       "0": 0,
       "1": v.$base-padding,
       "2": v.$base-padding * 2,
@@ -159,12 +169,20 @@ $utilities: (
     )
   )
 );
-
+/*crea dinámicamente las clases CSS utilizando las configuraciones definidas en el mapa de utilidades ($utilities).*/
 // Generación de clases utilitarias
-@each $property, $map in $utilities {
-  $prefix: map-get($map, "prefix");
-  $values: map-get($map, "values");
+@each $property, $map in $utilities {//recorre cada propiedad del mapa de utilidades, como padding, margin, font-size, etc.
+  $prefix: map-get($map, "prefix");//Extrae el prefijo de la propiedad de utilidad (por ejemplo, p, m, font, etc.).
+  $values: map-get($map, "values");//Extrae los valores asociados con la propiedad de utilidad (por ejemplo, el conjunto de valores de padding).
 
+  //Luego, en el siguiente bucle anidado:
+  
+  /*Si el valor de la clave es default, la clase generada será simplemente .prefix (por ejemplo, .p para padding).
+
+  Si la clave es diferente a default, se añade un sufijo a la clase, como .p-1, .p-2, etc., generando clases como .p-1, .p-2, etc., que aplican diferentes niveles de padding.
+  Por ejemplo:
+  
+  Para el caso de padding, si $values tiene una clave 1, se generará la clase .p-1 con el valor de padding correspondiente.*/
   @each $k, $v in $values {
     @if ($k == "default") {
       .#{$prefix} {
@@ -177,3 +195,9 @@ $utilities: (
     }
   }
 }
+
+
+/*El resultado final de este código es la creación de clases utilitarias dinámicas y reutilizables que pueden ser utilizadas directamente en el HTML 
+para aplicar estilos, sin tener que escribir CSS adicional. Por ejemplo, para el padding, las clases generadas serían:
+Este enfoque modular y dinámico en Sass proporciona una manera muy flexible y escalable de crear un sistema de utilidades para tus estilos. Al definir todo en un solo archivo, 
+las clases CSS se generan de manera automática y reutilizable, facilitando la gestión de los estilos y promoviendo la consistencia en el diseño del proyecto.*/

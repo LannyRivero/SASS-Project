@@ -1,16 +1,24 @@
-@use "sass:math";
-@use "breakpoints" as bp;
+/*Este archivo utiliza una estructura modular y dinámica para crear un sistema de cuadrícula (grid) flexible y clases de 
+diseño relacionadas. 
+En este caso, se aprovechan las variables, los mixins, y el sistema de puntos de interrupción (breakpoints) 
+para adaptarse a diferentes tamaños de pantalla. Vamos a desglosar y explicar cada parte del código.*/
 
-$grid-columns: 12;
-$grid-gaps: (
+@use "sass:math";//mporta el módulo math de Sass, lo que permite hacer operaciones matemáticas como la división y multiplicación dentro de Sass, lo cual es útil para el cálculo de anchos de columna y distribución en el grid.
+@use "breakpoints" as bp;//Importa un archivo personalizado llamado breakpoints que presumiblemente contiene los puntos de interrupción para diferentes tamaños de pantalla (como xs, sm, md, etc.). Este módulo se renombra como bp para facilitar su referencia en el código.
+
+$grid-columns: 12;//Define el número de columnas en el grid. En este caso, el grid tiene 12 columnas.
+$grid-gaps: ( //Un mapa que define los tamaños de los espacios (gaps) entre las columnas. Los valores de gap son 0, 10px, 20px, y 30px. Estos valores serán utilizados para añadir espacio entre las columnas.
   "0": 0,
   "1": 10px,
   "2": 20px,
   "3": 30px,
 );
-$layout-values: flex-start, flex-end, center, space-between, space-around;
+$layout-values: flex-start, flex-end, center, space-between, space-around;//Contiene los posibles valores para justify-content, que se pueden utilizar en el sistema de diseño para alinear los elementos dentro de un contenedor flex. Los valores son flex-start, flex-end, center, space-between, y space-around.
 
 // base layout classes
+/* Es una clase base que define el contenedor principal de tu diseño. Se asegura de que el contenedor ocupe el 100% del ancho de la pantalla (hasta un máximo de 1200px), 
+con márgenes automáticos para centrarlo. También se le
+ aplica un padding de 20px en los lados y se establece el modelo de caja (box-sizing: border-box) para incluir el padding dentro de las dimensiones totales del contenedor.*/
 .container {
   width: 100%;
   max-width: 1200px;
@@ -18,10 +26,18 @@ $layout-values: flex-start, flex-end, center, space-between, space-around;
   padding: 0 20px;
   box-sizing: border-box;
 }
+/*Se utiliza para crear un contenedor de tipo flexbox, con dirección de fila y 
+envoltura de los elementos (lo que permite que las columnas se acomoden automáticamente si el espacio es insuficiente).*/
 .row {
   display: flex;
   flex-flow: row wrap;
 }
+/*Este bloque de código genera clases para los distintos tamaños de gap entre las columnas. Por ejemplo, para un gap de 10px, se genera:
+
+.gap-0 > *: Establece un padding de 0px para todos los hijos directos de este contenedor.
+.gap-1 > *: Establece un padding de 10px para todos los hijos directos.
+.gap-0: Establece márgenes negativos a los lados para compensar el padding y garantizar que las columnas se alineen correctamente.
+Este patrón se repite para todos los valores del mapa $grid-gaps.*/
 
 // grid gaps
 @each $key, $val in $grid-gaps {
@@ -33,6 +49,14 @@ $layout-values: flex-start, flex-end, center, space-between, space-around;
     margin-right: -$val;
   }
 }
+/*Aquí se generan clases para aplicar las diferentes opciones de justify-content en los contenedores flex. Las clases generadas serán:
+
+.justify-flex-start
+.justify-flex-end
+.justify-center
+.justify-space-between
+.justify-space-around
+Estas clases permiten alinear los elementos de un contenedor flex de acuerdo a uno de los valores predefinidos en $layout-values.*/
 
 // justify content classes
 @each $val in $layout-values {
@@ -40,6 +64,17 @@ $layout-values: flex-start, flex-end, center, space-between, space-around;
     justify-content: $val;
   }
 }
+
+/*@include bp.xs { ... }: Este bloque de código utiliza el mixin bp.xs, que probablemente aplica las reglas dentro de los puntos de 
+interrupción definidos para pantallas de tamaño "xs" (extra pequeñas).
+Dentro de cada uno de estos bloques, se utiliza un bucle @for para generar clases de columnas con anchos variables, desde .col-1-xs hasta .col-12-xs.
+El ancho de cada columna se calcula como una fracción del total de columnas (12 en este caso).
+
+El proceso se repite para cada uno de los puntos de interrupción (xs, sm, md, lg, xl), lo que permite crear un sistema de grid responsivo. Cada tamaño de columna 
+se adapta al tamaño de pantalla.
+
+Por ejemplo, para el tamaño xs, .col-1-xs tendrá un ancho de math.div(1 * 100%, 12), lo que da como resultado un 8.33% del ancho total, y así sucesivamente hasta .col-12-xs, 
+que ocupará el 100%.**/
 
 // col classes
 @include bp.xs {
@@ -87,3 +122,10 @@ $layout-values: flex-start, flex-end, center, space-between, space-around;
     }
   }
 }
+
+
+/*Este código genera un sistema de diseño basado en un grid flexible que utiliza flexbox.
+ El uso de breakpoints permite que las clases de columnas se adapten a diferentes tamaños de pantalla (responsivas), 
+ mientras que las utilidades de espaciado, justificación y el contenedor .container proporcionan una estructura 
+base para trabajar.*/
+

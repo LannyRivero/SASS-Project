@@ -1,38 +1,51 @@
-@use 'variables' as v;
 
-@each $key, $val in v.$colors {
+/*En este fichero colors vamos a estar  genrando  clases de utilidad para los colores en CSS basados en una serie de colores 
+definidos en el fichero de variables. 
+
+Se crean clases de texto (text-*), 
+texto en estado hover (text-hover-*), 
+y fondos (bg-*) para cada color definido. 
+Además, se generan variaciones más claras y más oscuras de cada color (siempre que el color no sea negro ni blanco).*/
+
+@use 'variables' as v; //Esto permite acceder fácilmente a las variables definidas en ese archivo.
+
+@each $key, $val in v.$colors { //Este bucle recorre todas las claves y valores definidos en la variable $colors. Cada color tiene un nombre ($key) y un valor ($val).
   // Clases de color base
-  .text-#{$key} {
+  .text-#{$key} {   //Genera una clase .text-{key} para asignar el color del texto al valor correspondiente. 
+                    //Por ejemplo, si $key es primary y $val es #3498db, se crea .text-primary { color: #3498db; }.
     color: $val;
   }
-  .text-hover-#{$key} {
+  /*.text-hover-#{$key} { //Crea una clase .text-hover-{key} para cambiar el color del texto al pasar el mouse sobre el elemento.
     &:hover {
       color: $val;
     }
-  }
-  .bg-#{$key} {
+     
+  }*/
+
+  .bg-#{$key} { //Genera una clase .bg-{key} que aplica el color como fondo.
     background-color: $val;
   }
 
   // Variaciones de color si el color no es negro ni blanco
-  @if ($val != v.$black and $val != v.$white) {
-    // Variaciones de luz
-    @for $i from 1 through 9 {
+  
+  /*Comprueba si el color actual no es negro ni blanco. Esto asegura que solo se generen variaciones de colores para tonos 
+  que no sean estos */
+  
+  @if ($val != v.$black and $val != v.$white) {                                                
+   // Variaciones de luz
+   /*Crea un bucle que genera  variaciones más claras (light) y  más oscuras (dark) para el color actual. El rango va de 10% a 50%.*/
+    @for $i from 1 through 5 {
       .text-#{$key}-light-#{$i} {
         color: mix(v.$white, $val, $i * 10);
       }
-      .text-hover-#{$key}-light-#{$i} {
-        &:hover {
-          color: mix(v.$white, $val, $i * 10);
-        }
-      }
+
       .bg-#{$key}-light-#{$i} {
         background-color: mix(v.$white, $val, $i * 10);
       }
     }
 
     // Variaciones oscuras
-    @for $i from 1 through 9 {
+    @for $i from 1 through 5 {
       .text-#{$key}-dark-#{$i} {
         color: mix(v.$black, $val, $i * 10);
       }
@@ -47,3 +60,4 @@
     }
   }
 }
+
